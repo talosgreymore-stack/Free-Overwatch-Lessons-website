@@ -13,12 +13,217 @@ Ready to take your Overwatch skills to the next level? Whether you're a beginner
 <img src="Hammer.jpg" width="500">
 <p>Free PDF here</p>
 <button><a href="gorilla.jpg">Click Me</a></button><br>
-<textarea placeholder="Enter your feedback here..." ></textarea>
 <br>
 <p>Video code</p>  
 <button><a href="Screen Recording 2026-10-10 102120.mp4">Click Me</a></button>
 <img src="Doomcat.jpg" width="500">
 <video width="300" autoplay loop controls>
   <source src="Screen Recording 2026-10-11 232904.mp4" type="video/mp4">
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annoying Pop-up Ad</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #181818;
+    color: white;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  #ad {
+    position: fixed;
+    top: 30%;
+    left: 35%;
+    width: 300px;
+    padding: 20px;
+    background: #ff7b00;
+    color: black;
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 0 0 25px black;
+    z-index: 9999;
+    text-align: center;
+    transition: top 0.12s, left 0.12s;
+  }
+
+  #close {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    border: none;
+    background: transparent;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #close:hover {
+    color: red;
+  }
+
+  #message {
+    font-weight: bold;
+    min-height: 40px;
+  }
+
+  .fine-print {
+    font-size: 9px;
+    color: #333;
+    margin-top: 20px;
+  }
+
+  #status {
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  #ad input {
+    width: 130px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    text-transform: uppercase;
+  }
+
+  #ad button.submit {
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  #ad.hidden {
+    display: none;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Welcome to the website!</h1>
+<p>Enjoy your stay... if you can.</p>
+
+<div id="ad">
+  <button id="close" aria-label="Try to close ad">×</button>
+
+  <h2>🎉 FREE PRIZE!!! 🎉</h2>
+  <p>CONGRATULATIONS!</p>
+  <p>You have won absolutely nothing!</p>
+
+  <div id="message">
+    Click the X to claim your freedom!
+  </div>
+
+  <p>Try closing this ad if you dare.</p>
+
+  <div>
+    <input id="code" maxlength="4"
+           placeholder="Enter code"
+           aria-label="Enter the closing code">
+    <button class="submit" id="submit">Unlock</button>
+  </div>
+
+  <div id="status"></div>
+
+  <p class="fine-print">
+    *Fine print: To close this ad, type T-R-O-Y.
+    We apologize for your suffering.
+  </p>
+</div>
+
+<script>
+  const ad = document.getElementById("ad");
+  const closeBtn = document.getElementById("close");
+  const message = document.getElementById("message");
+  const code = document.getElementById("code");
+  const status = document.getElementById("status");
+  const submit = document.getElementById("submit");
+
+  const messages = [
+    "HAHA! Too slow!",
+    "You really thought that would work?",
+    "The X has left the chat.",
+    "Nope! Try again, human!",
+    "Your mouse skills disappoint me.",
+    "ERROR: Freedom not found.",
+    "This is your life now.",
+    "The button fears your cursor!",
+    "Almost! Just kidding.",
+    "Have you tried turning yourself off and on?",
+    "TROY KNOWS THE WAY.",
+    "Your escape attempt has been denied!"
+  ];
+
+  let attempts = 0;
+
+  function moveAd() {
+    const maxX = Math.max(0, window.innerWidth - ad.offsetWidth);
+    const maxY = Math.max(0, window.innerHeight - ad.offsetHeight);
+
+    ad.style.left = Math.floor(Math.random() * (maxX + 1)) + "px";
+    ad.style.top = Math.floor(Math.random() * (maxY + 1)) + "px";
+  }
+
+  closeBtn.addEventListener("click", () => {
+    attempts++;
+
+    message.textContent =
+      messages[Math.floor(Math.random() * messages.length)];
+
+    status.textContent =
+      "Escape attempts: " + attempts + " | Nice try!";
+
+    moveAd();
+  });
+
+  function closeWithCode() {
+    if (code.value.trim().toUpperCase() === "TROY") {
+      ad.classList.add("hidden");
+    } else {
+      status.textContent = "Wrong code! Hint: Read the fine print.";
+      moveAd();
+    }
+  }
+
+  submit.addEventListener("click", closeWithCode);
+
+  code.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      closeWithCode();
+    }
+  });
+
+  // Allow the code to be typed without the ad moving.
+  document.addEventListener("keydown", event => {
+    if (document.activeElement === code) return;
+
+    if (event.key.toLowerCase() === "t") {
+      code.value = "T";
+    } else if (
+      event.key.toLowerCase() === "r" && code.value === "T"
+    ) {
+      code.value = "TR";
+    } else if (
+      event.key.toLowerCase() === "o" && code.value === "TR"
+    ) {
+      code.value = "TRO";
+    } else if (
+      event.key.toLowerCase() === "y" && code.value === "TRO"
+    ) {
+      code.value = "TROY";
+      closeWithCode();
+    }
+  });
+
+  // Start in a random position.
+  moveAd();
+</script>
+
 </body>
 </html>
