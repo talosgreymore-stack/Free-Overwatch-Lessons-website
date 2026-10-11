@@ -19,226 +19,178 @@ Ready to take your Overwatch skills to the next level? Whether you're a beginner
 <img src="Doomcat.jpg" width="500">
 <video width="300" autoplay loop controls>
   <source src="Screen Recording 2026-10-11 232904.mp4" type="video/mp4">
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Annoying Pop-up Ad</title>
-
+ 
+<!-- TROY'S ANNOYING POPUP AD -->
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #181818;
-    color: white;
-    min-height: 100vh;
-    margin: 0;
-  }
-
-  #ad {
+  #troy-ad {
     position: fixed;
-    top: 30%;
-    left: 35%;
-    width: 300px;
-    padding: 20px;
-    background: #ff7b00;
-    color: black;
-    border: 3px solid white;
-    border-radius: 12px;
-    box-shadow: 0 0 25px black;
-    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    max-width: calc(100vw - 40px);
+    padding: 25px;
+    background: #171717;
+    color: white;
+    border: 2px solid #ff5722;
+    border-radius: 15px;
+    box-shadow: 0 0 30px #ff572288;
+    z-index: 999999;
+    font-family: Arial, sans-serif;
     text-align: center;
-    transition: top 0.12s, left 0.12s;
+    box-sizing: border-box;
+    transition: top 0.15s, left 0.15s;
   }
 
-  #close {
-    position: absolute;
-    top: 5px;
-    right: 8px;
-    border: none;
-    background: transparent;
-    font-size: 25px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  #close:hover {
-    color: red;
-  }
-
-  #message {
-    font-weight: bold;
-    min-height: 40px;
-  }
-
-  .fine-print {
-    font-size: 9px;
-    color: #333;
-    margin-top: 20px;
-  }
-
-  #status {
-    font-size: 12px;
+  #troy-ad h2 {
+    color: #ff5722;
     margin-top: 10px;
   }
 
-  #ad input {
-    width: 130px;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #555;
-    text-transform: uppercase;
+  #troy-ad p {
+    line-height: 1.5;
   }
 
-  #ad button.submit {
-    padding: 8px;
+  #troy-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 25px;
     cursor: pointer;
   }
 
-  #ad.hidden {
-    display: none;
+  #troy-input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #777;
+    border-radius: 6px;
+    background: #292929;
+    color: white;
+    box-sizing: border-box;
+  }
+
+  #troy-submit {
+    padding: 10px 18px;
+    background: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #troy-submit:hover {
+    background: #e64a19;
+  }
+
+  #troy-fineprint {
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 18px;
+  }
+
+  #troy-message {
+    color: #ffb199;
+    font-weight: bold;
+    min-height: 22px;
   }
 </style>
-</head>
 
-<body>
+<div id="troy-ad" role="dialog" aria-label="Troy's popup ad">
+  <button id="troy-close" type="button"
+          aria-label="Try to close the ad">×</button>
 
-<h1>Welcome to the website!</h1>
-<p>Enjoy your stay... if you can.</p>
+  <h2>🚨 WAIT A SECOND!</h2>
 
-<div id="ad">
-  <button id="close" aria-label="Try to close ad">×</button>
+  <p id="troy-description">
+    Congratulations! You've won absolutely nothing!
+    But you can't leave just yet. 😂
+  </p>
 
-  <h2>🎉 FREE PRIZE!!! 🎉</h2>
-  <p>CONGRATULATIONS!</p>
-  <p>You have won absolutely nothing!</p>
+  <p id="troy-message" aria-live="polite"></p>
 
-  <div id="message">
-    Click the X to claim your freedom!
-  </div>
+  <form id="troy-form">
+    <input
+      id="troy-input"
+      type="text"
+      placeholder="Enter the secret word..."
+      autocomplete="off"
+      aria-label="Secret word"
+    >
 
-  <p>Try closing this ad if you dare.</p>
+    <br>
 
-  <div>
-    <input id="code" maxlength="4"
-           placeholder="Enter code"
-           aria-label="Enter the closing code">
-    <button class="submit" id="submit">Unlock</button>
-  </div>
+    <button id="troy-submit" type="submit">
+      Let Me Go!
+    </button>
+  </form>
 
-  <div id="status"></div>
-
-  <p class="fine-print">
-    *Fine print: To close this ad, type T-R-O-Y.
-    We apologize for your suffering.
+  <p id="troy-fineprint">
+    *FINE PRINT: To escape this ridiculous ad,
+    type <b>TROY</b> into the box above and click
+    "Let Me Go!" Yes, seriously.
   </p>
 </div>
 
 <script>
-  const ad = document.getElementById("ad");
-  const closeBtn = document.getElementById("close");
-  const message = document.getElementById("message");
-  const code = document.getElementById("code");
-  const status = document.getElementById("status");
-  const submit = document.getElementById("submit");
+(function () {
+  const ad = document.getElementById("troy-ad");
+  const close = document.getElementById("troy-close");
+  const form = document.getElementById("troy-form");
+  const input = document.getElementById("troy-input");
+  const message = document.getElementById("troy-message");
+  const description = document.getElementById("troy-description");
 
-  const messages = [
-    "HAHA! Too slow!",
-    "You really thought that would work?",
-    "The X has left the chat.",
-    "Nope! Try again, human!",
-    "Your mouse skills disappoint me.",
-    "ERROR: Freedom not found.",
-    "This is your life now.",
-    "The button fears your cursor!",
-    "Almost! Just kidding.",
-    "Have you tried turning yourself off and on?",
-    "TROY KNOWS THE WAY.",
-    "Your escape attempt has been denied!"
+  const taunts = [
+    "HAHA! You thought it was that easy? 😈",
+    "Nice try! This ad isn't going anywhere!",
+    "The X button has betrayed you! 😂",
+    "No escape for you! Find the secret word!",
+    "Troy says NO! Try again, human!",
+    "ERROR 404: Your freedom was not found."
   ];
 
   let attempts = 0;
 
-  function moveAd() {
-    const maxX = Math.max(0, window.innerWidth - ad.offsetWidth);
-    const maxY = Math.max(0, window.innerHeight - ad.offsetHeight);
-
-    ad.style.left = Math.floor(Math.random() * (maxX + 1)) + "px";
-    ad.style.top = Math.floor(Math.random() * (maxY + 1)) + "px";
-  }
-
-  closeBtn.addEventListener("click", () => {
+  close.addEventListener("click", function () {
     attempts++;
 
     message.textContent =
-      messages[Math.floor(Math.random() * messages.length)];
+      taunts[(attempts - 1) % taunts.length];
 
-    status.textContent =
-      "Escape attempts: " + attempts + " | Nice try!";
+    // Move the entire ad to a random visible position.
+    const maxX = Math.max(0, window.innerWidth - ad.offsetWidth);
+    const maxY = Math.max(0, window.innerHeight - ad.offsetHeight);
 
-    moveAd();
+    ad.style.transform = "none";
+    ad.style.left = Math.floor(Math.random() * (maxX + 1)) + "px";
+    ad.style.top = Math.floor(Math.random() * (maxY + 1)) + "px";
+
+    // Change the headline after a few escape attempts.
+    if (attempts >= 3) {
+      description.textContent =
+        "STOP CLICKING THE X! 🤣 Just type the secret word below!";
+    }
   });
 
-  function closeWithCode() {
-    if (code.value.trim().toUpperCase() === "TROY") {
-      ad.classList.add("hidden");
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (input.value.trim().toLowerCase() === "troy") {
+      ad.remove();
     } else {
-      status.textContent = "Wrong code! Hint: Read the fine print.";
-      moveAd();
-    }
-  }
-
-  submit.addEventListener("click", closeWithCode);
-
-  code.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-      closeWithCode();
+      message.textContent =
+        "WRONG WORD! 😂 Read the fine print!";
+      input.value = "";
+      input.focus();
     }
   });
-
-  // Allow the code to be typed without the ad moving.
-  document.addEventListener("keydown", event => {
-    if (document.activeElement === code) return;
-
-    if (event.key.toLowerCase() === "t") {
-      code.value = "T";
-    } else if (
-      event.key.toLowerCase() === "r" && code.value === "T"
-    ) {
-      code.value = "TR";
-    } else if (
-      event.key.toLowerCase() === "o" && code.value === "TR"
-    ) {
-      code.value = "TRO";
-    } else if (
-      event.key.toLowerCase() === "y" && code.value === "TRO"
-    ) {
-      code.value = "TROY";
-      closeWithCode();
-    }
-  });
-
-  // Start in a random position.
-  moveAd();
+})();
 </script>
-
-
-
-
-  <title>Pop-up Test</title>
-<body style="background:#222;color:white;font-family:Arial">
-  <h1>Website is working!</h1>
-
-  <div style="
-    position:fixed;
-    top:30%;
-    left:30%;
-    background:orange;
-    color:black;
-    padding:30px;
-    border:3px solid white;
-    border-radius:12px;
-  ">
-    <h2>🎉 SURPRISE! 🎉</h2>
-    <p>The pop-up is working!</p>
-  </div>
 </body>
 </html>
 
