@@ -191,6 +191,187 @@ Ready to take your Overwatch skills to the next level? Whether you're a beginner
   });
 })();
 </script>
+
+<style>
+  #surpriseBox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.88);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  #surpriseContent {
+    background: #222;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+  }
+
+  #surpriseContent button {
+    background: #ff477e;
+    color: white;
+    border: 0;
+    padding: 13px 20px;
+    margin: 8px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  #cameraPreview {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 12px;
+    margin-top: 15px;
+  }
+
+  #surpriseContent input {
+    padding: 12px;
+    width: 80%;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    margin: 10px 0;
+  }
+</style>
+
+<div id="surpriseBox">
+  <div id="surpriseContent">
+    <h2>📸 A Special Surprise!</h2>
+    <p>We have a little surprise waiting for you.</p>
+    <p>Allow camera access to reveal it!</p>
+
+    <button id="cameraButton">Reveal My Surprise</button>
+    <button id="skipButton">Not Now</button>
+
+    <div id="surpriseResult"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const box = document.getElementById("surpriseBox");
+  const content = document.getElementById("surpriseContent");
+  const result = document.getElementById("surpriseResult");
+  const cameraButton = document.getElementById("cameraButton");
+  let stream = null;
+
+  document.getElementById("skipButton").onclick = () => {
+    stopCamera();
+    box.remove();
+  };
+
+  cameraButton.onclick = async () => {
+    if (!navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia) {
+      result.textContent =
+        "Camera access needs HTTPS or localhost. You can still enjoy the surprise!";
+      showNiceMessage();
+      return;
+    }
+
+    cameraButton.disabled = true;
+    result.textContent = "Waiting for your camera permission...";
+
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user" },
+        audio: false
+      });
+
+      content.innerHTML = `
+        <h2>Smile! 😁</h2>
+        <p>Your camera is on. Ready for your surprise?</p>
+        <video id="cameraPreview" autoplay playsinline></video>
+        <br>
+        <button id="takePicture">Take My Picture 📸</button>
+        <button id="cancelCamera">Turn Camera Off</button>
+        <div id="photoResult"></div>
+      `;
+
+      const video = document.getElementById("cameraPreview");
+      video.srcObject = stream;
+
+      document.getElementById("takePicture").onclick = () => {
+        if (!video.videoWidth) {
+          document.getElementById("photoResult").textContent =
+            "Camera is still starting. Try again in a moment!";
+          return;
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext("2d").drawImage(video, 0, 0);
+
+        stopCamera();
+
+        const photo = document.createElement("img");
+        photo.src = canvas.toDataURL("image/png");
+        photo.style.cssText =
+          "width:100%;max-width:320px;border-radius:12px;margin-top:12px";
+        photo.alt = "Your picture";
+
+        content.replaceChildren();
+        content.appendChild(photo);
+
+        const heading = document.createElement("h2");
+        heading.textContent = "GOTCHA! 😂❤️";
+        content.appendChild(heading);
+
+        const message = document.createElement("p");
+        message.textContent =
+          "You just took a picture for a prank! " +
+          "But seriously, you're awesome. Keep being yourself! 💖";
+        content.appendChild(message);
+
+        const close = document.createElement("button");
+        close.textContent = "Close Surprise";
+        close.onclick = () => box.remove();
+        content.appendChild(close);
+      };
+
+      document.getElementById("cancelCamera").onclick = () => {
+        stopCamera();
+        showNiceMessage();
+      };
+
+    } catch (error) {
+      result.textContent =
+        "No worries! Camera access wasn't granted. Here's your surprise anyway.";
+      showNiceMessage();
+    }
+  };
+
+  function stopCamera() {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      stream = null;
+    }
+  }
+
+  function showNiceMessage() {
+    content.innerHTML = `
+      <h2>❤️ One Thing Before You Go...</h2>
+      <p>You're genuinely awesome. Keep smiling, keep being yourself,
+      and don't let anyone steal your happiness! 😊</p>
+      <button id="finishButton">Aww, Thanks!</button>
+    `;
+    document.getElementById("finishButton").onclick = () => box.remove();
+  }
+
+  // Stop the camera if the page is closed or refreshed.
+  window.addEventListener("pagehide", stopCamera);
+})();
+</script>
 </body>
 </html>
 
